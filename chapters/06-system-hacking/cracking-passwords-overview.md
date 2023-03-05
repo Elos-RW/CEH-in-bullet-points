@@ -119,7 +119,26 @@
   - Once the connection is established, the host sends its username and NTLMv2 hash, which the attacker can attempt to crack and in such a way discover the password.
   - **Tools**
   - Responder
+  
+  #### GPU-based attack
+  
+  - Attacker using a deployed malware to keylogger user's password on websites using the victim GPU(open-GL) resources.
+  
+  #### Markov-Chain Attack
+  
+  - A type of dictionary attack that uses a password database to be split into 2 and 3 syllables to develope a new alphabet password list
+  
+  #### Kerberos Passwrod crack
+  
+  - Two ways to Crack Kerberos password {Active and passive attack types}
+    >Cracking TGS "Kerberoasting"
+    > Attacker request TGS using service account
+    > Upon receiveing the TGS, the attcker later requst TGT which would be subject for cracking.
 
+    >Cracking TGT "AS-REP Roasting" 
+    > Attacker request TGT from KDC in form of AS-REQ that belongs to the end-user.
+    > Later, attacker uses the received to crack the user's credientials
+  
 ### //Passive online attacks
 
 - Grabbing data in-transit e.g. a key, password hash
