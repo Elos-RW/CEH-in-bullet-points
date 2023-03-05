@@ -5,7 +5,7 @@
 
 ## Password attack types
 
-### Non-electronic attacks
+### //Non-electronic attacks
 
 - Do not require the attacker to have any technical knowledge about cracking passwords.
 - [**Dumpster diving**](./../10-social-engineering/social-engineering-types.md#dumpster-diving)
@@ -16,7 +16,8 @@
 - **[Social engineering](./../10-social-engineering/social-engineering-overview.md)**
   - Interacting with the target to trick them into revealing their passwords.
 
-### Active online attacks
+### //Active online attacks 
+>Hash injection, LLMNR/NBT-NS poisoning
 
 - Require the attacker to communicate with the target machine in order to crack the password.
 - E.g. trying to login with username password combination on an online login page.
@@ -27,7 +28,7 @@
   - Offline attack can perform millions/billions a second
     - Online attack, e.g. every 5 seconds, if you fail 5 times you might get locked out.
 
-#### Dictionary attack
+  #### Dictionary attack
 
 - 📝 Dictionary = file containing list of passwords
 - Steps
@@ -42,15 +43,27 @@
   - No guarantee to find the password
 - See also [Dictionary attacks | Cryptanalysis](./../15-cryptography/cryptanalysis.md#dictionary-attack)
 
-#### Brute-force attack
+  #### Brute-force attack
 
 - Running every combination of characters until the password is cracked.
 - Slowest technique (can take years) but comprehensive.
   - 💡 Should be used in combination with [rule-based attack](#rule-based-attack) to increase the speed.
 - See also [Brute force attack | Cryptanalysis](./../15-cryptography/cryptanalysis.md#brute-force-attack)
 
-#### Hybrid attack
+  #### Mask Attack
+  -Using HashCat to recover passwords from hashes using set of known characters
+  
+  #### Password Spraying Attack
+  
+  - Target multiple users at the same time using common used passwords
+  - Tools: CrackMapExec - Command line "CrackMapEcec smb [IP] -u list_of_users.txt -p list_of_password.txt"
 
+  #### Internal Monologue Attack
+  
+  -By disabling SSPI(Security Support Provider Interface) Attacker can extract all the non-network logon tokens from active processess on server, then replay/interact with NTLM SSP on the local server to get responses using those tokens/hashes.
+ 
+   #### Hybrid attack
+ 
 - 📝 [Dictionary attack](#dictionary-attack) + [brute force attack](#brute-force-attack)  
 - Taking a dictionary and expanding it with guesses using brute-force.
 - It prepends, appends or substitutes characters in words.
@@ -58,7 +71,7 @@
   - Say an `example.dict` contains: `password` and `hello`
   - `... -a 6 example.dict ?d?d` would generate from `password00` and `hello00` to `password99` and `hello99`
 
-#### Rule-based Attack
+  #### Rule-based Attack
 
 - Used when the attacker has some information about the password
   - such as the length, if there are any digits, and similar.
@@ -66,7 +79,7 @@
   - E.g. brute force, dictionary, and syllable attack.
 - Can e.g. record people, or use other [non-electronic attacks](#non-electronic-attacks) to get some portions of the password to build rules.
 
-#### Password guessing
+  #### Password guessing
 
 - Guess passwords either by humans or by automated tools using dictionaries
 - Requires the attacker to manually attempt to log into the target's machine.
@@ -77,7 +90,7 @@
   3. Sort the passwords by the probability
   4. Try each password
 
-#### Trojan/spyware/keylogger
+  #### Trojan/spyware/keylogger
 
 - Installed in target machine to get the target's passwords and usernames.
 - They run in the background and sometimes are difficult to detect.
@@ -87,7 +100,7 @@
 - **Spyware** are designed to collect secret information.
 - **[Keyloggers](./executing-applications.md#keylogger)** to send key strokes to the attacker.
 
-#### Hash injection
+  #### Hash injection
 
 - Attack on systems that use hash functions for the user authentication.
 - Steps:
@@ -95,7 +108,7 @@
   2. Find the hash that belongs to the user
   3. Use that hash to create an authenticated session.
 
-#### LLMNR/NBT-NS poisoning
+  #### LLMNR/NBT-NS poisoning
 
 - LLMNR = Link Local Multicast Name Resolution
 - NBT-NS = NetBIOS Name Service
@@ -104,8 +117,10 @@
   - When DNS fails to resolve name queries, the host sends a UDP broadcast message to other hosts asking them to authenticate themselves
   - Allows an attacker to listen for such broadcast messages and tricks the host into establishing a connection.
   - Once the connection is established, the host sends its username and NTLMv2 hash, which the attacker can attempt to crack and in such a way discover the password.
+  - **Tools**
+  - Responder
 
-### Passive online attacks
+### //Passive online attacks
 
 - Grabbing data in-transit e.g. a key, password hash
 - Without communicating with the target machine.
@@ -114,7 +129,7 @@
   2. Records the traffic data
   3. Uses the data to break into the system.
 
-#### Wire sniffing
+  #### Wire sniffing
 
 - Attackers sniff credentials by capturing packets that are being transmitted
 - During the packet transmission, attackers
@@ -122,12 +137,12 @@
   - extract sensitive information such as passwords and emails
     - uses them to  gain access to the target system.
 
-#### Man-in-the-middle (MITM) attack
+  #### Man-in-the-middle (MITM) attack
 
 - Attacker gains access to the communication channel between the target and server.
 - Attacker then extracts information and data they need to gain unauthorized access.
 
-#### Replay attack
+  #### Replay attack
 
 - Involves using a sniffer to capture packets and authentication tokens.
 - Need access to raw network data using e.g.
@@ -139,7 +154,7 @@
   - Using Session ID for each user session on server side
   - Expire session ID in short time intervals so replay attack cannot use same session ID
 
-### Offline attacks
+### //Offline attacks
 
 - Cracking efforts on a separate system
 - Attacker never attempts to login to the application server that can be logged.
@@ -147,21 +162,21 @@
 - Usually the attacker tries to guess a password from a hash dump.
   - E.g. SAM file on Windows or `/etc/shadow` on Linux.
 
-#### Distributed network attack (DNA)
+  #### Distributed network attack (DNA)
 
 - Uses the power of machines across the network to decrypt passwords.
 - Used for recovering passwords from hashes
 - DNA manager is installed on a central location
   - Coordinates the attack by allocating portions of the key search to machines which are on the network.
 
-#### Hash attacks
+  #### Hash attacks
 
 - [Rainbow table attack](../15-cryptography/cryptanalysis.md#rainbow-table-attack)
 - [Collision](../15-cryptography/cryptanalysis.md#collision-attack)
 - [Birthday attack](../15-cryptography/cryptanalysis.md#birthday-attack)
 - [Brute-force attack](../15-cryptography/cryptanalysis.md#brute-force-attack)
 
-#### Password cracking countermeasures
+  #### Password cracking countermeasures
 
 - 📝 Use [**password salting**](./../15-cryptography/hashing-algorithms.md#salted-hash)
   - The longer the random string, the harder it becomes to break or crack the password
@@ -169,7 +184,7 @@
   - Protects against [rainbow tables](../15-cryptography/cryptanalysis.md#rainbow-table-attack) as it would cause the table to include salts making it much bigger.
 - Use [key stretching](./../15-cryptography/hashing-algorithms.md#key-stretching) to derive stronger passwords to use in encryption.
 
-## Linux passwords
+## //Linux passwords
 
 - 📝 Linux hashed passwords lies in `/etc/shadow/` so you can attack on that.
 - Linux usually use SHA512, you can find method in `/etc/login.defs`
